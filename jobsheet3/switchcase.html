@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Percabangan Swtich Case</title>
+</head>
+<body>
+    <script>
+        var jawab=prompt("Kamu beruntung, silahkan pilih nomor 1 - 5");
+        var hadiah = "";
+        switch(jawab){
+            case "1":
+                hadiah = "Tisu";
+                break;
+            case "2":
+                hadiah = "Kotak Kopi";
+                break;
+            case "3" :
+                hadiah = "Sticker";
+                break;
+            case "4" :
+                hadiah = "Minyak Goreng";
+                break;
+            case "5" :
+                hadiah = "Uang Rp. 50.000";
+                break;
+            default :
+                document.write("Opps, pilih salah satu!");
+        }
+        if(hadiah == ""){
+                    document.write("Kamu Gagal mendapatkan hadiah");
+                } else{
+                    document.write("<h2>Selamat kamu mendapatkan" + hadiah +"</h2>");
+                }
+    </script>
+</body>
+</html>
