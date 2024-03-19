@@ -17,6 +17,7 @@
     $rata = array_sum($tanpa)/ (count($nilai)-(count($tinggi)+count($rendah)));
 
     echo "<br>";
+    
     echo "Nilai Dirata - rata : ". $rata;
     
 ?>
