@@ -12,12 +12,17 @@
         $password= $_POST['psw'];
 
         // mameasukkan ke database
-        $sql = "INSERT INTO karyawan ('nik','nama','tempat','tanggal','kelamin','email','psw') values ('$nik','$nama','$tempat','$tanggal','$kelamin','$email','$password')";
+        $sql = "INSERT INTO karyawan (nik,nama,tempat,tanggal,kelamin,email,pass) values ('$nik','$nama','$tempat','$tanggal','$kelamin','$email','$password')";
 
         if ($conn->query($sql)=== TRUE){
             echo "<script>
                     alert('Data telah tersimpan');
-                </script>"
+                    window.location.href = 'http://localhost/dasarweb/UTS/login.php';
+                </script>";
+        } else {
+            echo "<script>
+                alert('Data Tidak Tersimpan');
+            </script>";
         }
     }
 ?>
