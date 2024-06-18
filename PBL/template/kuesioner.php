@@ -146,7 +146,7 @@
                   </tr>
                 </tbody>
               </table>
-              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit">Beranda</button>
+              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit" a href="">Beranda</button>
               <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit">Next</button>
             </div>
         </div>

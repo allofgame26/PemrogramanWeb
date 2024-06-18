@@ -53,7 +53,7 @@
                                 <h4 class="my-0 fw-normal">Isi Survey</h4>
                             </div>
                             <div class="card-body">
-                                <img src="img/mahasiswa.jpg" width="250" height="250" a href="">
+                                <a href="pilihsurvey.php"><img src="img/mahasiswa.jpg" width="250" height="250" ></a>                               
                             </div>
                             </div>
                         </div>

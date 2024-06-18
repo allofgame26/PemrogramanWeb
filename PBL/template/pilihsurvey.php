@@ -64,10 +64,10 @@
                             <div class="col">
                                 <div class="card mb-4 rounded-3 shadow-sm">
                                 <div class="card-header py-3 text-bg-primary border-primary">
-                                    <h4 class="my-0 fw-normal">Survey Pelayanan</h4>
+                                   <h4 class="my-0 fw-normal">Survey Pelayanan</h4>
                                 </div>
                                 <div class="card-body">
-                                    <img src="img/mahasiswa.jpg" width="250" height="250" a href="">
+                                    <a href="kuesioner.php"><img src="img/mahasiswa.jpg" width="250" height="250"></a>
                                 </div>
                                 </div>
                             </div>

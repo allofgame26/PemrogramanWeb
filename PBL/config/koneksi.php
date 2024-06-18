@@ -1,22 +1,26 @@
 <?php
-class database{
- 
- var $host = "localhost";
- var $uname = "root";
- var $pass = "";
- var $db = "pbl";
+class Database {
+    private $host = 'localhost';
+    private $db_name = 'pbl';
+    private $username = 'root';
+    private $password = '';
+    public $conn;
 
- function __construct(){
-     $koneksi = mysqli_connect($this->host, $this->uname, $this->pass,$this->db);
+    public function getConnection() {
+        $this->conn = null;
 
-     if($koneksi){
-         echo "Koneksi database mysql dan php berhasil.";
-     }else{
-         echo "Koneksi database mysql dan php GAGAL !";
-     }
- }
-} 
+        try {
+            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            echo "<script>alert('Koneksi Tersambung ke Database')</script>";
+        } catch(PDOException $exception) {
+            echo "<script>alert('Koneksi Tidak Tersambung ke Database')</script>"; 
+        }
 
-$kitamulai = new database();
+        return $this->conn;
+    }
+}
 
+$database = new database();
+$db = $database->getConnection();
 ?>
