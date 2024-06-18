@@ -20,11 +20,36 @@
         });
     </script>
     <?php
+      session_start();
       require_once "../config/koneksi.php";
       require_once "crud.php";
-      
+
       $database = new database();
       $db = $database->getConnection();
+
+      $error = '';
+      if ($_SERVER["REQUEST_METHOD"] == "POST") {
+          $username = isset($_POST['username']) ? $_POST['username'] : '';
+          $password = isset($_POST['password']) ? $_POST['password'] : '';
+          
+          // Lakukan proses login hanya jika email dan password tidak kosong
+          if (!empty($username) && !empty($password)) {
+              $userManager = new UserManager($db);
+              $user = $userManager->login($username, $password);
+
+              if($user) {
+                  // Set session dan redirect ke halaman dashboard
+                  $_SESSION['user_id'] = $user['user_id'];
+                  $_SESSION['username'] = $user['username'];
+                  header("Location: admin/pages/biodata/dashboard.php");
+                  exit();
+              } else {
+                  $error = "Login failed. Invalid Username or password.";
+              }
+          } else {
+              $error = "Please fill in both Username and password.";
+          }
+      }
     ?>
     <style>
         .background {
@@ -64,17 +89,25 @@
 
             <h3 class="mb-5">Sign in Admin</h3>
 
+            <?php if($error): ?>
+               <script>
+                  alert('<?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?>');
+               </script>
+            <?php endif; ?>
+
+            <form method="POST" action="">
             <div data-mdb-input-init class="form-outline mb-4">
-              <input type="email" id="typeEmailX-2" class="form-control form-control-lg" />
-              <label class="form-label" for="typeEmailX-2">Username</label>
+              <input type="username" class="form-control form-control-lg" name="username" />
+              <label class="form-label" >Username</label>
             </div>
 
             <div data-mdb-input-init class="form-outline mb-4">
-              <input type="password" id="typePasswordX-2" class="form-control form-control-lg" />
-              <label class="form-label" for="typePasswordX-2">Password</label>
+              <input type="password" class="form-control form-control-lg" name="password" />
+              <label class="form-label">Password</label>
             </div>
 
             <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+            </form>
             <center><a href="lupa.php">Lupa Password?</a></center>
           </div>
         </div>

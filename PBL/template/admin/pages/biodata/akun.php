@@ -62,7 +62,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item menu-open">
-            <a href="..\..\starter.html" class="nav-link active">
+            <a href="dashboard.php" class="nav-link active"> <!--untuk pindah ke starter  ..\..\starter.html-->
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 User Management
