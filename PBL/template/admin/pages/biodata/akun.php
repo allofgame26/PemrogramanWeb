@@ -314,13 +314,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div id="popupOverlay" class="overlay-container"> 
                       <div class="popup-box"> 
                             <h2 style="color: green;">Popup Form</h2> 
-                            <form class="form-container"> 
-                                <label class="form-label" for="name"> 
-                                  Username: 
-                                </label> 
-                                <input class="form-input" type="text" placeholder="Enter Your Username" id="name" name="name" required> 
-                                <label class="form-label" for="email">Email:</label> 
-                                <input class="form-input" type="email" placeholder="Enter Your Email" id="email" name="email" required> 
+                            <form method="post" class="form-container"  action="tambahakun.php"> 
+                                <label class="form-label" for="name"> Username: </label> 
+                                <input class="form-input" type="text" placeholder="Enter Your Username" name="name" required> 
+                                <label class="form-label" for="level">Level:</label>
+                                <select name="level" id="level">
+                                  <option value="admin">Admin</option>
+                                  <option value="user">User</option>
+                                </select>
+                                <label class="form-label" for="password">Password:</label> 
+                                <input class="form-input" type="password" placeholder="Enter Your Password" name="password" required> 
+                                </select>
+                                <label class="form-label" for="salt">Salt:</label>
+                                <input class="form-input" type="text" placeholder="Enter Salt" name="salt" required>
+                                <br>
                                 <button class="btn-submit" type="submit"> 
                                   Submit 
                                 </button> 

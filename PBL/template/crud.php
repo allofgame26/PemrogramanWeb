@@ -2,11 +2,11 @@
     class User {
         private $conn;
         private $table_name = "m_user";
-
         public $id;
         public $username;
         public $level;
         public $password;
+        public $salt;
 
         public function __construct($db) {
             $this->conn = $db;
@@ -24,18 +24,24 @@
     class UserManager {
         private $conn;
         private $table_name = "m_user";
+        public $id;
+        public $username;
+        public $level;
+        public $password;
+        public $salt;
 
         public function __construct($db) {
             $this->conn = $db;
         }
 
         // Create User
-        public function create($user) {
-            $query = "INSERT INTO " . $this->table_name . " SET username=:username, level=:level, password=:password";
+        public function create() {
+            $query = "INSERT INTO " . $this->table_name . " SET username=:username, level=:level, password=:password, salt=:salt";
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":username", $user->username);
-            $stmt->bindParam(":level", $user->level);
-            $stmt->bindParam(":password", password_hash($user->password, PASSWORD_BCRYPT));
+            $stmt->bindParam(":username", $this->username);
+            $stmt->bindParam(":level", $this->level);
+            $stmt->bindParam(":password", $this->password);
+            $stmt->bindParam(":salt", $this->salt);
 
             if($stmt->execute()) {
                 return true;
