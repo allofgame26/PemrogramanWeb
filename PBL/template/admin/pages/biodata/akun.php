@@ -195,13 +195,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="card-body">
                 <button type="button" class="btn btn-block btn-primary" onclick="togglePopup()">+ Tambah</button>
                 <!-- Membuat Pop Up Form -->
-                <script>
-                  function togglePopup() { 
-                      const overlay = document.getElementById('popupOverlay'); 
-                      overlay.classList.toggle('show'); 
-                  } 
-                </script>
                 <br>
+                <?php
+                  require_once "../../../../config/koneksi.php";
+                  require_once "../../../crud.php";
+                
+                  $database = new database();
+                  $db = $database->getConnection();
+                  $user = new UserManager($db);
+
+                  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    if (isset($_POST['create'])) {
+                        $user->username = $_POST['username'];
+                        $user->level = $_POST['level'];
+                        $user->password = $_POST['password'];
+                        $user->salt = $_POST['salt'];
+                        $user->create();
+                    } elseif (isset($_POST['update'])) {
+                        $user->id = $_POST['user_id'];
+                        $user->username = $_POST['username'];
+                        $user->level = $_POST['level'];
+                        $user->password = $_POST['password'];
+                        $user->salt = $_POST['salt'];
+                        $user->updateakun();
+                    } elseif (isset($_POST['delete'])) {
+                        $user->id = $_POST['user_id'];
+                        $user->deleteakun();
+                    }
+                }
+
+                  $stmt = $user->readAll();
+                ?>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
@@ -213,16 +237,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>Presto</td>
-                    <td>Opera 8.5</td>
-                    <td>Win 95+ / OSX.2+</td>
-                    <td>-</td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-success">Edit</button>
-                      <button type="button" class="btn btn-block btn-danger">Danger</button>
-                    </td>
+                  <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+                    <tr>
+                      <td><?php echo htmlspecialchars($row['user_id']); ?></td>
+                      <td><?php echo htmlspecialchars($row['username']); ?></td>
+                      <td><?php echo htmlspecialchars($row['level']); ?></td>
+                      <td><?php echo htmlspecialchars($row['password']); ?></td>
+                      <td>
+                          <button onclick="togglePopup('<?php echo $row['user_id']; ?>', '<?php echo $row['username']; ?>', '<?php echo $row['level']; ?>', '<?php echo $row['password']; ?>','<?php echo $row['salt']; ?>')">Edit</button>
+                          <form method="post" style="display:inline-block;">
+                              <input type="hidden" name="user_id" value="<?php echo $row['user_id']; ?>">
+                              <button type="submit" name="delete">Delete</button>
+                          </form>
+                      </td>
                   </tr>
+                  <?php endwhile; ?>
                   </tbody>
                   <tfoot>
                   <tr>
@@ -313,33 +342,65 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- Toogle Popup -->
                   <div id="popupOverlay" class="overlay-container"> 
                       <div class="popup-box"> 
-                            <h2 style="color: green;">Popup Form</h2> 
-                            <form method="post" class="form-container"  action="tambahakun.php"> 
+                      <span class="close" onclick="togglePopup()">&times;</span>
+                            <h2 style="color: green;" id="popupTitle">Tambah User</h2> 
+                            <form method="post" class="form-container"  action="" id="userForm">
+                              <input type="hidden" id="user_id" name="user_id"> 
                                 <label class="form-label" for="name"> Username: </label> 
-                                <input class="form-input" type="text" placeholder="Enter Your Username" name="name" required> 
+                                <input class="form-input" type="text" placeholder="Enter Your Username" name="username" id="username" required> 
                                 <label class="form-label" for="level">Level:</label>
                                 <select name="level" id="level">
                                   <option value="admin">Admin</option>
                                   <option value="user">User</option>
-                                </select>
+                                </select><br>
                                 <label class="form-label" for="password">Password:</label> 
-                                <input class="form-input" type="password" placeholder="Enter Your Password" name="password" required> 
+                                <input class="form-input" type="password" placeholder="Enter Your Password" name="password" id="password" required> 
                                 </select>
                                 <label class="form-label" for="salt">Salt:</label>
-                                <input class="form-input" type="text" placeholder="Enter Salt" name="salt" required>
+                                <input class="form-input" type="text" placeholder="Enter Salt" name="salt" id="salt" required>
                                 <br>
-                                <button class="btn-submit" type="submit"> 
+                                <button class="btn-submit" id="formButton" type="submit" name="create"> 
                                   Submit 
                                 </button> 
                             </form> 
-                  
-                            <button class="btn-close-popup" onclick="togglePopup()"> 
-                              Close 
-                            </button> 
                         </div> 
                   </div>
-                  
+
+                  <script>
+                    function togglePopup(user_id = '', username = '', level = '', password = '',salt = '') {
+                        const overlay = document.getElementById('popupOverlay');
+                        overlay.classList.toggle('show');
+                        
+                        if (user_id) {
+                            document.getElementById('popupTitle').innerText = 'Edit User';
+                            document.getElementById('user_id').value = user_id;
+                            document.getElementById('username').value = username;
+                            document.getElementById('level').value = level;
+                            document.getElementById('password').value = password;
+                            document.getElementById('salt').value = salt;
+                            document.getElementById('formButton').name = 'update';
+                            document.getElementById('formButton').innerText = 'Update User';
+                        } else {
+                            document.getElementById('popupTitle').innerText = 'Add New User';
+                            document.getElementById('userForm').reset();
+                            document.getElementById('formButton').name = 'create';
+                            document.getElementById('formButton').innerText = 'Add User';
+                        }
+                    }
+                    </script>
+
                   <style>
+                    #editPopup {
+                      display: none;
+                      position: fixed;
+                      top: 50%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);
+                      background-color: white;
+                      padding: 20px;
+                      border: 1px solid #ddd;
+                      z-index: 100;
+                    }
                     .btn-open-popup { 
                           padding: 12px 24px; 
                           font-size: 18px; 
@@ -447,5 +508,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           opacity: 1; 
                       } 
                   </style>
+
 </body>
 </html>
