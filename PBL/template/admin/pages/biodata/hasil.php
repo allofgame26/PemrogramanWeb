@@ -33,7 +33,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
+        <a href="logout.php">
         <button type="button" class="btn btn-block btn-danger">Log Out</button>
+        </a>
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -168,12 +170,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>User Account</h1>
+            <h1>Data Hasil Pertanyaan</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">User Account</li>
+              <li class="breadcrumb-item active">Data Hasil Pertanyaan</li>
             </ol>
           </div>
         </div>
@@ -187,7 +189,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Data Account User</h3>
+                <h3 class="card-title">Data Hasil Pertanyaan</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">

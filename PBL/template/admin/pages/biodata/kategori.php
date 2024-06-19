@@ -33,7 +33,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
+        <a href="logout.php">
         <button type="button" class="btn btn-block btn-danger">Log Out</button>
+        </a>
     </ul>
   </nav>
   <!-- /.navbar -->
@@ -168,12 +170,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>User Account</h1>
+            <h1>Daftar Kategori</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">User Account</li>
+              <li class="breadcrumb-item active">Daftar Kategori</li>
             </ol>
           </div>
         </div>
@@ -187,11 +189,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Data Account User</h3>
+                <h3 class="card-title">Data Daftar Kategori</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <button type="button" class="btn btn-block btn-primary">+ Tambah</button>
+                <button type="button" class="btn btn-block btn-primary" onclick="togglePopup()">+ Tambah</button>
+                <!-- Membuat Pop Up Form -->
+                <script>
+                  function togglePopup() { 
+                      const overlay = document.getElementById('popupOverlay'); 
+                      overlay.classList.toggle('show'); 
+                  } 
+                </script>
                 <br>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
@@ -301,5 +310,135 @@ scratch. This page gets rid of all links and provides the needed markup only.
     });
   });
 </script>
+<!-- Toogle Popup -->
+<div id="popupOverlay" class="overlay-container"> 
+                      <div class="popup-box"> 
+                            <h2 style="color: green;">Popup Form</h2> 
+                            <form class="form-container"> 
+                                <label class="form-label" for="name"> 
+                                  Username: 
+                                </label> 
+                                <input class="form-input" type="text" placeholder="Enter Your Username" id="name" name="name" required> 
+                                <label class="form-label" for="email">Email:</label> 
+                                <input class="form-input" type="email" placeholder="Enter Your Email" id="email" name="email" required> 
+                                <button class="btn-submit" type="submit"> 
+                                  Submit 
+                                </button> 
+                            </form> 
+                  
+                            <button class="btn-close-popup" onclick="togglePopup()"> 
+                              Close 
+                            </button> 
+                        </div> 
+                  </div>
+                  
+                  <style>
+                    .btn-open-popup { 
+                          padding: 12px 24px; 
+                          font-size: 18px; 
+                          background-color: green; 
+                          color: #fff; 
+                          border: none; 
+                          border-radius: 8px; 
+                          cursor: pointer; 
+                          transition: background-color 0.3s ease; 
+                      } 
+                
+                      .btn-open-popup:hover { 
+                          background-color: #4caf50; 
+                      } 
+                
+                      .overlay-container { 
+                          display: none; 
+                          position: fixed; 
+                          top: 0; 
+                          left: 0; 
+                          width: 100%; 
+                          height: 100%; 
+                          background: rgba(0, 0, 0, 0.6); 
+                          justify-content: center; 
+                          align-items: center; 
+                          opacity: 0; 
+                          transition: opacity 0.3s ease; 
+                      } 
+                
+                      .popup-box { 
+                          background: #fff; 
+                          padding: 24px; 
+                          border-radius: 12px; 
+                          box-shadow: 0 0 20px rgba(0, 0, 0, 0.4); 
+                          width: 320px; 
+                          text-align: center; 
+                          opacity: 0; 
+                          transform: scale(0.8); 
+                          animation: fadeInUp 0.5s ease-out forwards; 
+                      } 
+                
+                      .form-container { 
+                          display: flex; 
+                          flex-direction: column; 
+                      } 
+                
+                      .form-label { 
+                          margin-bottom: 10px; 
+                          font-size: 16px; 
+                          color: #444; 
+                          text-align: left; 
+                      } 
+                
+                      .form-input { 
+                          padding: 10px; 
+                          margin-bottom: 20px; 
+                          border: 1px solid #ccc; 
+                          border-radius: 8px; 
+                          font-size: 16px; 
+                          width: 100%; 
+                          box-sizing: border-box; 
+                      } 
+                
+                      .btn-submit, 
+                      .btn-close-popup { 
+                          padding: 12px 24px; 
+                          border: none; 
+                          border-radius: 8px; 
+                          cursor: pointer; 
+                          transition: background-color 0.3s ease, color 0.3s ease; 
+                      } 
+                
+                      .btn-submit { 
+                          background-color: green; 
+                          color: #fff; 
+                      } 
+                
+                      .btn-close-popup { 
+                          margin-top: 12px; 
+                          background-color: #e74c3c; 
+                          color: #fff; 
+                      } 
+                
+                      .btn-submit:hover, 
+                      .btn-close-popup:hover { 
+                          background-color: #4caf50; 
+                      } 
+                
+                      /* Keyframes for fadeInUp animation */ 
+                      @keyframes fadeInUp { 
+                          from { 
+                              opacity: 0; 
+                              transform: translateY(20px); 
+                          } 
+                
+                          to { 
+                              opacity: 1; 
+                              transform: translateY(0); 
+                          } 
+                      } 
+                
+                      /* Animation for popup */ 
+                      .overlay-container.show { 
+                          display: flex; 
+                          opacity: 1; 
+                      } 
+                  </style>
 </body>
 </html>

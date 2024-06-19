@@ -33,7 +33,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
+      <a href="logout.php">
       <button type="button" class="btn btn-block btn-danger">Log Out</button>
+      </a>
     </ul>
   </nav>
   <!-- /.navbar -->

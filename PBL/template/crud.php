@@ -57,5 +57,32 @@
             }
             return false;
         }
+
+        // Update User
+    public function update($user) {
+        $query = "UPDATE " . $this->table_name . " SET username=:username  WHERE id=:id";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(":username", $user->username);
+        $stmt->bindParam(":id", $user->id);
+
+        if($stmt->execute()) {
+            return true;
+        }
+        return false;
     }
+
+    // Delete User
+    public function delete($id) {
+        $query = "DELETE FROM " . $this->table_name . " WHERE user_id=:id";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(":id", $id);
+
+        if($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+}
 ?>
