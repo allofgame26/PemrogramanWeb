@@ -39,7 +39,7 @@
 
               if($user) {
                   // Set session dan redirect ke halaman dashboard
-                  $_SESSION['user_id'] = $user['user_id'];
+                  $_SESSION['id_user'] = $user['id_user'];
                   $_SESSION['username'] = $user['username'];
                   header("Location: admin/pages/biodata/dashboard.php");
                   exit();

@@ -207,19 +207,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     if (isset($_POST['create'])) {
                         $user->username = $_POST['username'];
+                        $user->id_pengguna = $_POST['id_pengguna'];
                         $user->level = $_POST['level'];
                         $user->password = $_POST['password'];
                         $user->salt = $_POST['salt'];
                         $user->create();
                     } elseif (isset($_POST['update'])) {
-                        $user->id = $_POST['user_id'];
+                        $user->id = $_POST['id_user'];
+                        $user->id_pengguna = $_POST['id_pengguna'];
                         $user->username = $_POST['username'];
                         $user->level = $_POST['level'];
                         $user->password = $_POST['password'];
                         $user->salt = $_POST['salt'];
                         $user->updateakun();
                     } elseif (isset($_POST['delete'])) {
-                        $user->id = $_POST['user_id'];
+                        $user->id = $_POST['id_user'];
                         $user->deleteakun();
                     }
                 }
@@ -230,6 +232,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <thead>
                   <tr>
                     <th>User ID</th>
+                    <th>Pengguna ID</th>
                     <th>Username</th>
                     <th>Level</th>
                     <th>Password</th>
@@ -239,14 +242,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <tbody>
                   <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
                     <tr>
-                      <td><?php echo htmlspecialchars($row['user_id']); ?></td>
+                      <td><?php echo htmlspecialchars($row['id_user']); ?></td>
+                      <td><?php echo htmlspecialchars($row['id_pengguna']); ?></td>
                       <td><?php echo htmlspecialchars($row['username']); ?></td>
                       <td><?php echo htmlspecialchars($row['level']); ?></td>
                       <td><?php echo htmlspecialchars($row['password']); ?></td>
                       <td>
-                          <button class = "btn btn-success" onclick="togglePopup('<?php echo $row['user_id']; ?>', '<?php echo $row['username']; ?>', '<?php echo $row['level']; ?>', '<?php echo $row['password']; ?>','<?php echo $row['salt']; ?>')">Edit</button>
+                          <button class = "btn btn-success" onclick="togglePopup('<?php echo $row['id_user']; ?>','<?php echo $row['id_pengguna']; ?>', '<?php echo $row['username']; ?>', '<?php echo $row['level']; ?>', '<?php echo $row['password']; ?>','<?php echo $row['salt']; ?>')">Edit</button>
                           <form method="post" style="display:inline-block;">
-                              <input type="hidden" name="user_id" value="<?php echo $row['user_id']; ?>">
+                              <input type="hidden" name="id_user" value="<?php echo $row['id_user']; ?>">
                               <button type="submit" class="btn btn-danger" name="delete">Delete</button>
                           </form>
                       </td>
@@ -256,6 +260,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <tfoot>
                   <tr>
                     <th>User ID</th>
+                    <th>Pengguna ID</th>
                     <th>Username</th>
                     <th>Level</th>
                     <th>Password</th>
@@ -345,7 +350,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <span class="close" onclick="togglePopup()">&times;</span>
                             <h2 style="color: green;" id="popupTitle">Tambah User</h2> 
                             <form method="post" class="form-container"  action="" id="userForm">
-                              <input type="hidden" id="user_id" name="user_id"> 
+                              <input type="hidden" id="id_user" name="id_user"> 
                                 <label class="form-label" for="name"> Username: </label> 
                                 <input class="form-input" type="text" placeholder="Enter Your Username" name="username" id="username" required> 
                                 <label class="form-label" for="level">Level:</label>
@@ -353,6 +358,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                   <option value="admin">Admin</option>
                                   <option value="user">User</option>
                                 </select><br>
+                                <label class="form-label" for="id_pengguna">ID Pengguna:</label>
+                                    <select name="id_pengguna" id="id_pengguna">
+                                      <?php
+
+                                      require_once "../../../../config/koneksi.php";
+                                      require_once "../../../crud.php";
+
+                                      $database = new Database();
+                                      $db = $database->getConnection();
+
+                                      $item = new UserManager($db);
+                                      $stmn = $item->readPengguna();                                      
+
+                                      while ($row = $stmn->fetch(PDO::FETCH_ASSOC)) {
+                                          echo "<option value='" . htmlspecialchars($row['id_pengguna']) . "'>" . htmlspecialchars($row['nama']) . "</option>";
+                                      }
+                                      ?>
+                                  </select><br>
                                 <label class="form-label" for="password">Password:</label> 
                                 <input class="form-input" type="password" placeholder="Enter Your Password" name="password" id="password" required> 
                                 </select>
@@ -367,13 +390,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </div>
 
                   <script>
-                    function togglePopup(user_id = '', username = '', level = '', password = '',salt = '') {
+                    function togglePopup(id_user = '',id_pengguna = '' ,username = '', level = '', password = '',salt = '') {
                         const overlay = document.getElementById('popupOverlay');
                         overlay.classList.toggle('show');
                         
-                        if (user_id) {
+                        if (id_user) {
                             document.getElementById('popupTitle').innerText = 'Edit User';
-                            document.getElementById('user_id').value = user_id;
+                            document.getElementById('id_user').value = id_user;
+                            document.getElementById('id_pengguna').value = id_pengguna;
                             document.getElementById('username').value = username;
                             document.getElementById('level').value = level;
                             document.getElementById('password').value = password;
