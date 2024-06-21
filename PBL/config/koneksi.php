@@ -1,7 +1,7 @@
 <?php
 class Database {
     private $host = 'localhost';
-    private $db_name = 'pbl';
+    private $db_name = 'uas';
     private $username = 'root';
     private $password = '';
     public $conn;

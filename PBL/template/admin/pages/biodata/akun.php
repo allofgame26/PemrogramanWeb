@@ -244,10 +244,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <td><?php echo htmlspecialchars($row['level']); ?></td>
                       <td><?php echo htmlspecialchars($row['password']); ?></td>
                       <td>
-                          <button onclick="togglePopup('<?php echo $row['user_id']; ?>', '<?php echo $row['username']; ?>', '<?php echo $row['level']; ?>', '<?php echo $row['password']; ?>','<?php echo $row['salt']; ?>')">Edit</button>
+                          <button class = "btn btn-success" onclick="togglePopup('<?php echo $row['user_id']; ?>', '<?php echo $row['username']; ?>', '<?php echo $row['level']; ?>', '<?php echo $row['password']; ?>','<?php echo $row['salt']; ?>')">Edit</button>
                           <form method="post" style="display:inline-block;">
                               <input type="hidden" name="user_id" value="<?php echo $row['user_id']; ?>">
-                              <button type="submit" name="delete">Delete</button>
+                              <button type="submit" class="btn btn-danger" name="delete">Delete</button>
                           </form>
                       </td>
                   </tr>
