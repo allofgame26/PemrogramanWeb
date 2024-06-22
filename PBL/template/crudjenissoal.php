@@ -1,31 +1,21 @@
 <?php
     class User {
         private $conn;
-        private $table_name = "m_user";
-        public $id;
-        public $username;
-        public $level;
-        public $password;
-        public $salt;
+        private $table_name = "jenis_soal";
+        public $id_jenis_soal;
+        public $nama_jenis;
 
         public function __construct($db) {
             $this->conn = $db;
         }
 
-        public function findUserByEmail() {
-            $query = "SELECT * FROM " . $this->table_name . " WHERE username = :username";
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":username", $this->username);
-            $stmt->execute();
-            return $stmt;
-        }
     }
 
     class UserManager {
         private $conn;
-        private $table_name = "kategori";
-        public $id_kategori;
-        public $nama_kategori;
+        private $table_name = "jenis_soal";
+        public $id_jenis_soal;
+        public $nama_jenis;
 
         public function __construct($db) {
             $this->conn = $db;
@@ -33,9 +23,9 @@
 
         // Create User
         public function create() {
-            $query = "INSERT INTO " . $this->table_name . " SET nama_kategori=:nama_kategori";
+            $query = "INSERT INTO " . $this->table_name . " SET nama_jenis=:nama_jenis";
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":nama_kategori", $this->nama_kategori);
+            $stmt->bindParam(":nama_jenis", $this->nama_jenis);
 
             if($stmt->execute()) {
                 return true;
@@ -60,11 +50,11 @@
 
         // Update User
     public function update() {
-        $query = "UPDATE " . $this->table_name . " SET nama_kategori=:nama_kategori WHERE id_kategori=:id_kategori";
+        $query = "UPDATE " . $this->table_name . " SET nama_jenis=:nama_jenis WHERE id_jenis-soal=:id_jenis_soal";
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(":id_kategori", $this->id_kategori);
-        $stmt->bindParam(":nama_kategori", $this->nama_kategori);
+        $stmt->bindParam(":id_jenis_soal", $this->id_jenis_soal);
+        $stmt->bindParam(":nama_jenis", $this->nama_jenis);
 
         if($stmt->execute()) {
             return true;
@@ -74,10 +64,10 @@
 
     // Delete User
     public function delete() {
-        $query = "DELETE FROM " . $this->table_name . " WHERE id_kategori=:id_kategori";
+        $query = "DELETE FROM " . $this->table_name . " WHERE id_jenis_soal=:id_jenis_soal";
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(":id_kategori", $this->id_kategori);
+        $stmt->bindParam(":id_jenis_soal", $this->id_jenis_soal);
 
         if($stmt->execute()) {
             return true;
@@ -85,7 +75,7 @@
         return false;
     }
     public function readALL(){
-        $query = "SELECT * FROM kategori";
+        $query = "SELECT * FROM jenis_soal";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;

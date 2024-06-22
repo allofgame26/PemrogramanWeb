@@ -27,13 +27,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="starter.html" class="nav-link">Home</a>
+        <a href="..\..\starter.html" class="nav-link">Home</a>
       </li>
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-    <a href="logout.php">
+      <a href="logout.php">
       <button type="button" class="btn btn-block btn-danger">Log Out</button>
       </a>
     </ul>
@@ -64,7 +64,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item menu-open">
-            <a href="dashboard.php" class="nav-link "> <!--untuk pindah ke starter  ..\..\starter.html-->
+            <a href="dashboard.php" class="nav-link"> <!--untuk pindah ke starter  ..\..\starter.html-->
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 User Management
@@ -79,7 +79,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
               <li class="nav-item">
-                <a href="biodata.php" class="nav-link">
+                <a href="biodata.php" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Biodata</p>
                 </a>
@@ -103,7 +103,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
               <li class="nav-item">
-                <a href="almuni.php" class="nav-link active">
+                <a href="almuni.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Alumni</p>
                 </a>
@@ -138,13 +138,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pertanyaan.php" class="nav-link ">
+                <a href="pertanyaan.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pertanyaan</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="kategori.php" class="nav-link">
+                <a href="kategori.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kategori</p>
                 </a>
@@ -158,7 +158,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
           </li>
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Hasil Data
@@ -167,7 +167,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="hasil.php" class="nav-link">
+                <a href="hasil.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Hasil Jawaban Responden</p>
                 </a>
@@ -188,12 +188,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Data Alumni</h1>
+            <h1>User Biodata</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Data Alumni</li>
+              <li class="breadcrumb-item active">User Biodata</li>
             </ol>
           </div>
         </div>
@@ -207,48 +207,88 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Data Alumni</h3>
+                <h3 class="card-title">Data Biodata User</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <button type="button" class="btn btn-block btn-primary" onclick="togglePopup()">+ Tambah</button>
                 <!-- Membuat Pop Up Form -->
-                <script>
-                  function togglePopup() { 
-                      const overlay = document.getElementById('popupOverlay'); 
-                      overlay.classList.toggle('show'); 
-                  } 
-                </script>
                 <br>
+                <?php
+                  require_once "../../../../config/koneksi.php";
+                  require_once "../../../crudbiodata.php";
+                
+                  $database = new database();
+                  $db = $database->getConnection();
+                  $user = new UserManager($db);
+
+                  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    if (isset($_POST['create'])) {
+                        $user->nama = $_POST['nama'];
+                        $user->tanggal_lahir = $_POST['birthdate'];
+                        $user->tempat_lahir = $_POST['tempat'];
+                        $user->alamat = $_POST['alamat'];
+                        $user->email = $_POST['email'];
+                        $user->telp = $_POST['telp'];
+                        $user->create();
+                    } elseif (isset($_POST['update'])) {
+                        $user->id_biodata = $_POST['id_biodata'];
+                        $user->nama = $_POST['nama'];
+                        $user->tanggal_lahir = $_POST['birthdate'];
+                        $user->tempat_lahir = $_POST['tempat'];
+                        $user->alamat = $_POST['alamat'];
+                        $user->email = $_POST['email'];
+                        $user->telp = $_POST['telp'];
+                        $user->update();
+                    } elseif (isset($_POST['delete'])) {
+                        $user->id_biodata = $_POST['id_biodata'];
+                        $user->delete();
+                    }
+                }
+
+                  $stmt = $user->readAll();
+                ?>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                    <th>User ID</th>
-                    <th>Username</th>
-                    <th>Level</th>
-                    <th>Password</th>
-                    <th>Aksi</th>
+                    <th>ID Biodata</th>
+                    <th>Nama Lengkap</th>
+                    <th>Tanggal Lahir</th>
+                    <th>Tempat Lahir</th>
+                    <th>Alamat</th>
+                    <th>Email</th>
+                    <th>Telefon</th>  
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>Presto</td>
-                    <td>Opera 8.5</td>
-                    <td>Win 95+ / OSX.2+</td>
-                    <td>-</td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-success">Edit</button>
-                      <button type="button" class="btn btn-block btn-danger">Danger</button>
-                    </td>
+                  <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+                    <tr>
+                      <td><?php echo htmlspecialchars($row['id_biodata']); ?></td>
+                      <td><?php echo htmlspecialchars($row['nama']); ?></td>
+                      <td><?php echo htmlspecialchars($row['tanggal_lahir']); ?></td>
+                      <td><?php echo htmlspecialchars($row['tempat_lahir']); ?></td>
+                      <td><?php echo htmlspecialchars($row['alamat']); ?></td>
+                      <td><?php echo htmlspecialchars($row['email']); ?></td>
+                      <td><?php echo htmlspecialchars($row['telp']); ?></td>
+                      <td>
+                          <button class = "btn btn-success" onclick="togglePopup('<?php echo $row['id_biodata']; ?>','<?php echo $row['nama']; ?>', '<?php echo $row['tanggal_lahir']; ?>', '<?php echo $row['tempat_lahir']; ?>','<?php echo $row['alamat']; ?>', '<?php echo $row['email']; ?>','<?php echo $row['telp']; ?>')">Edit</button>
+                          <form method="post" style="display:inline-block;">
+                              <input type="hidden" name="id_biodata" value="<?php echo $row['id_biodata']; ?>">
+                              <button type="submit" class="btn btn-danger" name="delete">Delete</button>
+                          </form>
+                      </td>
                   </tr>
+                  <?php endwhile; ?>
                   </tbody>
                   <tfoot>
                   <tr>
-                    <th>User ID</th>
-                    <th>Username</th>
-                    <th>Level</th>
-                    <th>Password</th>
-                    <th>Aksi</th>
+                    <th>ID Biodata</th>
+                    <th>Nama Lengkap</th>
+                    <th>Tanggal Lahir</th>
+                    <th>Tempat Lahir</th>
+                    <th>Alamat</th>
+                    <th>Email</th>
+                    <th>Telefon</th>
                   </tr>
                   </tfoot>
                 </table>
@@ -331,26 +371,67 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- Toogle Popup -->
                   <div id="popupOverlay" class="overlay-container"> 
                       <div class="popup-box"> 
-                            <h2 style="color: green;">Popup Form</h2> 
-                            <form class="form-container"> 
-                                <label class="form-label" for="name"> 
-                                  Username: 
-                                </label> 
-                                <input class="form-input" type="text" placeholder="Enter Your Username" id="name" name="name" required> 
-                                <label class="form-label" for="email">Email:</label> 
-                                <input class="form-input" type="email" placeholder="Enter Your Email" id="email" name="email" required> 
-                                <button class="btn-submit" type="submit"> 
+                      <span class="close" onclick="togglePopup()">&times;</span>
+                            <h2 style="color: green;" id="popupTitle">Tambah User</h2> 
+                            <form method="post" class="form-container"  action="" id="userForm">
+                              <input type="hidden" id="id_biodata" name="id_biodata"> 
+                                <label class="form-label" for="name"> Nama Lengkap: </label> 
+                                <input class="form-input" type="text" placeholder="Enter Your Name" name="nama" id="nama" required> 
+                                <label class="form-label" for="birthdate">Tanggal Lahir:</label>
+                                <input class="form-input" type="date" name="birthdate" id="birthdate" required><br>
+                                <label class="form-label" for="tempat"> Tempat Lahir: </label> 
+                                <input class="form-input" type="text" placeholder="Tempat Lahir" name="tempat" id="tempat" required>
+                                <label class="form-label" for="alamat"> Alamat: </label> 
+                                <input class="form-input" type="text" placeholder="Alamat" name="alamat" id="alamat" required>  
+                                <label class="form-label" for="email"> E-mail: </label> 
+                                <input class="form-input" type="text" placeholder="email" name="email" id="email" required> 
+                                <label class="form-label" for="telp">Nomor Telefon:</label>
+                                <input class="form-input" type="text" placeholder="Enter Number Phone" name="telp" id="telp" required>
+                                <br>
+                                <button class="btn-submit" id="formButton" type="submit" name="create"> 
                                   Submit 
                                 </button> 
                             </form> 
-                  
-                            <button class="btn-close-popup" onclick="togglePopup()"> 
-                              Close 
-                            </button> 
                         </div> 
                   </div>
-                  
+
+                  <script>
+                    function togglePopup(id_biodata = '',nama = '' ,birthdate = '', tempat = '', alamat = '',email = '',telp = '') {
+                        const overlay = document.getElementById('popupOverlay');
+                        overlay.classList.toggle('show');
+                        
+                        if (id_biodata) {
+                            document.getElementById('popupTitle').innerText = 'Edit User';
+                            document.getElementById('id_biodata').value = id_biodata;
+                            document.getElementById('nama').value = nama;
+                            document.getElementById('birthdate').value = birthdate;
+                            document.getElementById('tempat').value = tempat;
+                            document.getElementById('alamat').value = alamat;
+                            document.getElementById('email').value = email;
+                            document.getElementById('telp').value = telp;
+                            document.getElementById('formButton').name = 'update';
+                            document.getElementById('formButton').innerText = 'Update User';
+                        } else {
+                            document.getElementById('popupTitle').innerText = 'Add New User';
+                            document.getElementById('userForm').reset();
+                            document.getElementById('formButton').name = 'create';
+                            document.getElementById('formButton').innerText = 'Add User';
+                        }
+                    }
+                    </script>
+
                   <style>
+                    #editPopup {
+                      display: none;
+                      position: fixed;
+                      top: 50%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);
+                      background-color: white;
+                      padding: 20px;
+                      border: 1px solid #ddd;
+                      z-index: 100;
+                    }
                     .btn-open-popup { 
                           padding: 12px 24px; 
                           font-size: 18px; 
@@ -458,5 +539,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                           opacity: 1; 
                       } 
                   </style>
+
 </body>
 </html>

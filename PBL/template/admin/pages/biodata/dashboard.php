@@ -56,7 +56,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="..\admin\starter.html" class="nav-link">
+            <a href="dashboard.php" class="nav-link">
               <i class="nav-icon far fa-image"></i>
               <p>
                 Dashboard
@@ -64,7 +64,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item menu-open">
-            <a href="akun.php" class="nav-link active">
+            <a href="dashboard.php" class="nav-link active"> <!--untuk pindah ke starter  ..\..\starter.html-->
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 User Management
@@ -76,6 +76,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a href="akun.php" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>User Account</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="biodata.php" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Biodata</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pengguna.php" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Pengguna</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -135,6 +147,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <a href="kategori.php" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kategori</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="jenissoal.php" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Jenis Soal</p>
                 </a>
               </li>
             </ul>

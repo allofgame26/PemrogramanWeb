@@ -79,6 +79,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
               <li class="nav-item">
+                <a href="biodata.php" class="nav-link ">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Biodata</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pengguna.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Pengguna</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="orangtua.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Orang Tua</p>
@@ -126,15 +138,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pertanyaan.php" class="nav-link active">
+                <a href="pertanyaan.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pertanyaan</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="kategori.php" class="nav-link active">
+                <a href="kategori.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kategori</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="jenissoal.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Jenis Soal</p>
                 </a>
               </li>
             </ul>
@@ -149,7 +167,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="hasil.php" class="nav-link active">
+                <a href="hasil.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Hasil Jawaban Responden</p>
                 </a>
@@ -369,7 +387,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                       $db = $database->getConnection();
 
                                       $item = new UserManager($db);
-                                      $stmn = $item->readPengguna();                                      
+                                      $stmn = $item->readPengguna();                                       
 
                                       while ($row = $stmn->fetch(PDO::FETCH_ASSOC)) {
                                           echo "<option value='" . htmlspecialchars($row['id_pengguna']) . "'>" . htmlspecialchars($row['nama']) . "</option>";

@@ -23,9 +23,14 @@
 
     class UserManager {
         private $conn;
-        private $table_name = "kategori";
-        public $id_kategori;
-        public $nama_kategori;
+        private $table_name = "pengguna";
+        public $id_pengguna;
+        public $id_stakeholder;
+        public $id_biodata;
+        public $username;
+        public $level;
+        public $password;
+        public $salt;
 
         public function __construct($db) {
             $this->conn = $db;
@@ -33,9 +38,10 @@
 
         // Create User
         public function create() {
-            $query = "INSERT INTO " . $this->table_name . " SET nama_kategori=:nama_kategori";
+            $query = "INSERT INTO " . $this->table_name . " SET id_biodata=:id_biodata, id_stakeholder=:id_stakeholder";
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(":nama_kategori", $this->nama_kategori);
+            $stmt->bindParam(":id_biodata", $this->id_biodata);
+            $stmt->bindParam(":id_stakeholder", $this->id_stakeholder);
 
             if($stmt->execute()) {
                 return true;
@@ -60,11 +66,12 @@
 
         // Update User
     public function update() {
-        $query = "UPDATE " . $this->table_name . " SET nama_kategori=:nama_kategori WHERE id_kategori=:id_kategori";
+        $query = "UPDATE " . $this->table_name . " SET id_biodata=:id_biodata,id_stakeholder=:id_stakeholder WHERE id_pengguna=:id_pengguna";
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(":id_kategori", $this->id_kategori);
-        $stmt->bindParam(":nama_kategori", $this->nama_kategori);
+        $stmt->bindParam(":id_pengguna", $this->id_pengguna);
+        $stmt->bindParam(":id_biodata", $this->id_biodata);
+        $stmt->bindParam(":id_stakeholder", $this->id_stakeholder);
 
         if($stmt->execute()) {
             return true;
@@ -74,10 +81,10 @@
 
     // Delete User
     public function delete() {
-        $query = "DELETE FROM " . $this->table_name . " WHERE id_kategori=:id_kategori";
+        $query = "DELETE FROM " . $this->table_name . " WHERE id_pengguna=:id_pengguna";
         $stmt = $this->conn->prepare($query);
 
-        $stmt->bindParam(":id_kategori", $this->id_kategori);
+        $stmt->bindParam(":id_pengguna", $this->id_pengguna);
 
         if($stmt->execute()) {
             return true;
@@ -85,7 +92,21 @@
         return false;
     }
     public function readALL(){
-        $query = "SELECT * FROM kategori";
+        $query = "SELECT pengguna.id_pengguna, biodata.id_biodata, biodata.nama, stakeholder.id_stakeholder , stakeholder.nama_stakeholder FROM pengguna inner join biodata on pengguna.id_biodata = biodata.id_biodata inner join stakeholder on pengguna.id_stakeholder = stakeholder.id_stakeholder";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    public function readBiodata(){
+        $query = "SELECT * FROM biodata";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    public function readStakeholder(){
+        $query = "SELECT * FROM stakeholder";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
