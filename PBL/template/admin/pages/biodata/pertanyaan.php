@@ -230,16 +230,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     if (isset($_POST['create'])) {
-                        $user->id_biodata = $_POST['id_biodata'];
-                        $user->id_stakeholder = $_POST['id_stakeholder'];
+                        $user->id_kategori = $_POST['id_kategori'];
+                        $user->id_jenis_soal = $_POST['id_jenis_soal'];
+                        $user->soal = $_POST['soal'];
                         $user->create();
                     } elseif (isset($_POST['update'])) {
-                        $user->id_pengguna = $_POST['id_pengguna'];
-                        $user->id_biodata = $_POST['id_biodata'];
-                        $user->id_stakeholder = $_POST['id_stakeholder'];
+                        $user->id_soal = $_POST['id_soal'];
+                        $user->id_kategori = $_POST['id_kategori'];
+                        $user->id_jenis_soal = $_POST['id_jenis_soal'];
+                        $user->soal = $_POST['soal'];
                         $user->update();
                     } elseif (isset($_POST['delete'])) {
-                        $user->id_pengguna = $_POST['id_pengguna'];
+                      $user->id_soal = $_POST['id_soal'];
                         $user->delete();
                     }
                 }
@@ -264,7 +266,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <td><?php echo htmlspecialchars($row['nama_jenis']); ?></td>
                       <td><?php echo htmlspecialchars($row['soal']); ?></td>
                       <td>
-                          <button class = "btn btn-success" onclick="togglePopup('<?php echo $row['id_soal']; ?>','<?php echo $row['id_kategori']; ?>', '<?php echo $row['id_jenis']; ?>','<?php echo $row['soal']; ?>')">Edit</button>
+                          <button class = "btn btn-success" onclick="togglePopup('<?php echo $row['id_soal']; ?>','<?php echo $row['id_kategori']; ?>', '<?php echo $row['id_jenis_soal']; ?>','<?php echo $row['soal']; ?>')">Edit</button>
                           <form method="post" style="display:inline-block;">
                               <input type="hidden" name="id_soal" value="<?php echo $row['id_soal']; ?>">
                               <button type="submit" class="btn btn-danger" name="delete">Delete</button>
@@ -365,43 +367,45 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <span class="close" onclick="togglePopup()">&times;</span>
                             <h2 style="color: green;" id="popupTitle">Tambah User</h2> 
                             <form method="post" class="form-container"  action="" id="userForm">
-                              <input type="hidden" id="id_pengguna" name="id_pengguna"> 
-                                <label class="form-label" for="id_biodata">Nama :</label>
-                                    <select name="id_biodata" id="id_biodata">
+                              <input type="hidden" id="id_soal" name="id_soal"> 
+                                <label class="form-label" for="id_kategori">Kategori Petanyaan:</label>
+                                    <select name="id_kategori" id="id_kategori">
                                       <?php
 
                                       require_once "../../../../config/koneksi.php";
-                                      require_once "../../../crudpengguna.php";
+                                      require_once "../../../crudpertanyaan.php";
 
                                       $database = new Database();
                                       $db = $database->getConnection();
 
                                       $item = new UserManager($db);
-                                      $stmn = $item->readBiodata();                                       
+                                      $stmn = $item->readKategori();                                       
 
                                       while ($row = $stmn->fetch(PDO::FETCH_ASSOC)) {
-                                          echo "<option value='" . htmlspecialchars($row['id_biodata']) . "'>" . htmlspecialchars($row['nama']) . "</option>";
+                                          echo "<option value='" . htmlspecialchars($row['id_kategori']) . "'>" . htmlspecialchars($row['nama_kategori']) . "</option>";
                                       }
                                       ?>
                                   </select><br>
-                                  <label class="form-label" for="id_stakeholder">Nama StakeHolder:</label>
-                                    <select name="id_stakeholder" id="id_stakeholder">
+                                  <label class="form-label" for="id_jenis_soal">Jenis Soal Pertanyaan:</label>
+                                    <select name="id_jenis_soal" id="id_jenis_soal">
                                       <?php
 
                                       require_once "../../../../config/koneksi.php";
-                                      require_once "../../../crudpengguna.php";
+                                      require_once "../../../crudpertanyaan.php";
 
                                       $database = new Database();
                                       $db = $database->getConnection();
 
                                       $item = new UserManager($db);
-                                      $stmn = $item->readStakeholder();                                       
+                                      $stmn = $item->readJenissoal();                                       
 
                                       while ($row = $stmn->fetch(PDO::FETCH_ASSOC)) {
-                                          echo "<option value='" . htmlspecialchars($row['id_stakeholder']) . "'>" . htmlspecialchars($row['nama_stakeholder']) . "</option>";
+                                          echo "<option value='" . htmlspecialchars($row['id_jenis_soal']) . "'>" . htmlspecialchars($row['nama_jenis']) . "</option>";
                                       }
                                       ?>
                                   </select><br>
+                                  <label class="form-label" for="soal"> Masukkan Pertanyaan: </label> 
+                                  <input class="form-input" type="text" placeholder="Enter Question" name="soal" id="soal" required> 
                                 <button class="btn-submit" id="formButton" type="submit" name="create"> 
                                   Submit 
                                 </button> 
@@ -410,15 +414,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </div>
 
                   <script>
-                    function togglePopup(id_pengguna = '',id_biodata = '' ,id_stakeholder = '') {
+                    function togglePopup(id_soal = '',id_kategori = '' ,id_jenis_soal = '',soal = '') {
                         const overlay = document.getElementById('popupOverlay');
                         overlay.classList.toggle('show');
                         
                         if (id_pengguna) {
                             document.getElementById('popupTitle').innerText = 'Edit User';
-                            document.getElementById('id_pengguna').value = id_pengguna;
-                            document.getElementById('id_biodata').value = id_biodata;
-                            document.getElementById('id_stakeholder').value = id_stakeholder;
+                            document.getElementById('id_soal').value = id_soal;
+                            document.getElementById('id_kategori').value = id_kategori;
+                            document.getElementById('id_jenis_soal').value = id_jenis_soal;
+                            document.getElementById('soal').value = soal;
                             document.getElementById('formButton').name = 'update';
                             document.getElementById('formButton').innerText = 'Update User';
                         } else {

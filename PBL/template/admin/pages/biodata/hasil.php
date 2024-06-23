@@ -79,13 +79,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
               </li>
               <li class="nav-item">
-                <a href="biodata.php" class="nav-link active">
+                <a href="biodata.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Biodata</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pengguna.php" class="nav-link active">
+                <a href="pengguna.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pengguna</p>
                 </a>
@@ -138,19 +138,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pertanyaan.php" class="nav-link active">
+                <a href="pertanyaan.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pertanyaan</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="kategori.php" class="nav-link active">
+                <a href="kategori.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kategori</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="jenissoal.php" class="nav-link active">
+                <a href="jenissoal.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Jenis Soal</p>
                 </a>
@@ -209,39 +209,51 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="card-header">
                 <h3 class="card-title">Data Hasil Pertanyaan</h3>
               </div>
+              <!-- Membuat Pop Up Form -->
+              <script>
+                  function togglePopup() { 
+                      const overlay = document.getElementById('popupOverlay'); 
+                      overlay.classList.toggle('show'); 
+                  } 
+                </script>
               <!-- /.card-header -->
               <div class="card-body">
-                <button type="button" class="btn btn-block btn-primary">+ Tambah</button>
                 <br>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                    <th>User ID</th>
-                    <th>Username</th>
-                    <th>Level</th>
-                    <th>Password</th>
-                    <th>Aksi</th>
+                    <th>ID Jawaban</th>
+                    <th>ID User</th>
+                    <th>ID Soal</th>
+                    <th>Jawaban</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>Presto</td>
-                    <td>Opera 8.5</td>
-                    <td>Win 95+ / OSX.2+</td>
-                    <td>-</td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-success">Edit</button>
-                      <button type="button" class="btn btn-block btn-danger">Danger</button>
-                    </td>
+                  <?php
+                  require_once "../../../../config/koneksi.php";
+                  require_once "../../../crudjawaban.php";
+                
+                  $database = new database();
+                  $db = $database->getConnection();
+                  $user = new UserManager($db);
+
+                  $stmt = $user->readAll();
+                  ?>
+                  <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+                    <tr>
+                      <td><?php echo htmlspecialchars($row['id_jawaban']); ?></td>
+                      <td><?php echo htmlspecialchars($row['id_soal']); ?></td>
+                      <td><?php echo htmlspecialchars($row['id_user']); ?></td>
+                      <td><?php echo htmlspecialchars($row['jawaban']); ?></td>
                   </tr>
+                  <?php endwhile; ?>
                   </tbody>
                   <tfoot>
                   <tr>
-                    <th>User ID</th>
-                    <th>Username</th>
-                    <th>Level</th>
-                    <th>Password</th>
-                    <th>Aksi</th>
+                    <th>ID Jawaban</th>
+                    <th>ID User</th>
+                    <th>ID Soal</th>
+                    <th>Jawaban</th>
                   </tr>
                   </tfoot>
                 </table>
