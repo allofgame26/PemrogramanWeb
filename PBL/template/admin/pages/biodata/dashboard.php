@@ -6,8 +6,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ADMIN</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -15,6 +16,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- AdminLTE JS -->
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/js/adminlte.min.js"></script></nav>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -43,7 +51,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="dashboard.html" class="brand-link">
       <img src="AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">ADMIN</span>
     </a>
@@ -56,7 +64,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="dashboard.php" class="nav-link">
+            <a href="dashboard.php" class="nav-link active">
               <i class="nav-icon far fa-image"></i>
               <p>
                 Dashboard
@@ -73,19 +81,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="akun.php" class="nav-link active">
+                <a href="akun.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>User Account</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="biodata.php" class="nav-link active">
+                <a href="biodata.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Biodata</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pengguna.php" class="nav-link active">
+                <a href="pengguna.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pengguna</p>
                 </a>
@@ -138,19 +146,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pertanyaan.php" class="nav-link active">
+                <a href="pertanyaan.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pertanyaan</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="kategori.php" class="nav-link active">
+                <a href="kategori.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kategori</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="jenissoal.php" class="nav-link active">
+                <a href="jenissoal.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Jenis Soal</p>
                 </a>
@@ -167,7 +175,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="hasil.php" class="nav-link active">
+                <a href="hasil.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Hasil Jawaban Responden</p>
                 </a>
@@ -218,7 +226,36 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div>
         </div>
         <div class="card-body">
-          Start creating your amazing application!
+        <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+
+<script>
+const xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
+const yValues = [55, 49, 44, 24, 15];
+const barColors = [
+  "#b91d47",
+  "#00aba9",
+  "#2b5797",
+  "#e8c3b9",
+  "#1e7145"
+];
+
+new Chart("myChart", {
+  type: "doughnut",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "World Wide Wine Production 2018"
+    }
+  }
+});
+</script>
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
