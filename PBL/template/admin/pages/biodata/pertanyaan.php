@@ -418,7 +418,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         const overlay = document.getElementById('popupOverlay');
                         overlay.classList.toggle('show');
                         
-                        if (id_pengguna) {
+                        if (id_soal) {
                             document.getElementById('popupTitle').innerText = 'Edit User';
                             document.getElementById('id_soal').value = id_soal;
                             document.getElementById('id_kategori').value = id_kategori;

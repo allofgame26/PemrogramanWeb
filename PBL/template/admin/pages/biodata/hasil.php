@@ -226,6 +226,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <th>ID User</th>
                     <th>ID Soal</th>
                     <th>Jawaban</th>
+                    <th>Date Modified</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -245,6 +246,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <td><?php echo htmlspecialchars($row['id_soal']); ?></td>
                       <td><?php echo htmlspecialchars($row['id_user']); ?></td>
                       <td><?php echo htmlspecialchars($row['jawaban']); ?></td>
+                      <td><?php echo htmlspecialchars($row['date_modified']); ?></td>
                   </tr>
                   <?php endwhile; ?>
                   </tbody>
@@ -254,6 +256,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <th>ID User</th>
                     <th>ID Soal</th>
                     <th>Jawaban</th>
+                    <th>Date Modified</th>
                   </tr>
                   </tfoot>
                 </table>

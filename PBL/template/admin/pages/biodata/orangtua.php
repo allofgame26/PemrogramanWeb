@@ -73,25 +73,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="akun.php" class="nav-link active">
+                <a href="akun.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>User Account</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="biodata.php" class="nav-link active">
+                <a href="biodata.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Biodata</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pengguna.php" class="nav-link active">
+                <a href="pengguna.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pengguna</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="orangtua.php" class="nav-link">
+                <a href="orangtua.php" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Orang Tua</p>
                 </a>
@@ -138,19 +138,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pertanyaan.php" class="nav-link active">
+                <a href="pertanyaan.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pertanyaan</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="kategori.php" class="nav-link active">
+                <a href="kategori.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kategori</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="jenissoal.php" class="nav-link active">
+                <a href="jenissoal.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Jenis Soal</p>
                 </a>
@@ -167,7 +167,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="hasil.php" class="nav-link active">
+                <a href="hasil.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Hasil Jawaban Responden</p>
                 </a>
@@ -220,34 +220,72 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   } 
                 </script>
                 <br>
+                <?php
+                  require_once "../../../../config/koneksi.php";
+                  require_once "../../../crudortu.php";
+                
+                  $database = new database();
+                  $db = $database->getConnection();
+                  $user = new UserManager($db);
+
+                  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    if (isset($_POST['create'])) {
+                        $user->id_pengguna = $_POST['id_pengguna'];
+                        $user->penghasilan = $_POST['penghasilan'];
+                        $user->create();
+                    } elseif (isset($_POST['update'])) {
+                        $user->id_ortu = $_POST['id_ortu'];
+                        $user->id_pengguna = $_POST['id_pengguna'];
+                        $user->penghasilan = $_POST['penghasilan'];
+                        $user->update();
+                    } elseif (isset($_POST['delete'])) {
+                        $user->id_ortu = $_POST['id_ortu'];
+                        $user->delete();
+                    }
+                }
+
+                  $stmt = $user->readAll();
+                ?>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                    <th>User ID</th>
-                    <th>Username</th>
-                    <th>Level</th>
-                    <th>Password</th>
+                    <th>ID Orang Tua</th>
+                    <th>ID Pengguna</th>
+                    <th>Penghasilan</th>
                     <th>Aksi</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>Presto</td>
-                    <td>Opera 8.5</td>
-                    <td>Win 95+ / OSX.2+</td>
-                    <td>-</td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-success">Edit</button>
-                      <button type="button" class="btn btn-block btn-danger">Danger</button>
-                    </td>
+                  <?php
+                  require_once "../../../../config/koneksi.php";
+                  require_once "../../../crudortu.php";
+                
+                  $database = new database();
+                  $db = $database->getConnection();
+                  $user = new UserManager($db);
+
+                  $stmt = $user->readAll();
+                  ?>
+                  <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+                    <tr>
+                      <td><?php echo htmlspecialchars($row['id_ortu']); ?></td>
+                      <td><?php echo htmlspecialchars($row['id_pengguna']); ?></td>
+                      <td><?php echo htmlspecialchars($row['penghasilan']); ?></td>
+                      <td>
+                          <button class = "btn btn-success" onclick="togglePopup('<?php echo $row['id_ortu']; ?>','<?php echo $row['id_pengguna']; ?>','<?php echo $row['penghasilan']; ?>')">Edit</button>
+                          <form method="post" style="display:inline-block;">
+                              <input type="hidden" name="id_ortu" value="<?php echo $row['id_ortu']; ?>">
+                              <button type="submit" class="btn btn-danger" name="delete">Delete</button>
+                          </form>
+                      </td>
                   </tr>
+                  <?php endwhile; ?>
                   </tbody>
                   <tfoot>
                   <tr>
-                    <th>User ID</th>
-                    <th>Username</th>
-                    <th>Level</th>
-                    <th>Password</th>
+                    <th>ID Orang Tua</th>
+                    <th>ID Pengguna</th>
+                    <th>Penghasilan</th>
                     <th>Aksi</th>
                   </tr>
                   </tfoot>
@@ -331,26 +369,71 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- Toogle Popup -->
 <div id="popupOverlay" class="overlay-container"> 
                       <div class="popup-box"> 
-                            <h2 style="color: green;">Popup Form</h2> 
-                            <form class="form-container"> 
-                                <label class="form-label" for="name"> 
-                                  Username: 
-                                </label> 
-                                <input class="form-input" type="text" placeholder="Enter Your Username" id="name" name="name" required> 
-                                <label class="form-label" for="email">Email:</label> 
-                                <input class="form-input" type="email" placeholder="Enter Your Email" id="email" name="email" required> 
-                                <button class="btn-submit" type="submit"> 
+                      <span class="close" onclick="togglePopup()">&times;</span>
+                            <h2 style="color: green;" id="popupTitle">Tambah User</h2> 
+                            <form method="post" class="form-container"  action="" id="userForm">
+                              <input type="hidden" id="id_ortu" name="id_ortu"> 
+                              <label class="form-label" for="id_pengguna">ID Pengguna:</label>
+                                    <select name="id_pengguna" id="id_pengguna">
+                                      <?php
+
+                                      require_once "../../../../config/koneksi.php";
+                                      require_once "../../../crudortu.php";
+
+                                      $database = new Database();
+                                      $db = $database->getConnection();
+
+                                      $item = new UserManager($db);
+                                      $stmn = $item->readPengguna();                                       
+
+                                      while ($row = $stmn->fetch(PDO::FETCH_ASSOC)) {
+                                          echo "<option value='" . htmlspecialchars($row['id_pengguna']) . "'>" . htmlspecialchars($row['nama']) . "</option>";
+                                      }
+                                      ?>
+                                  </select><br> 
+                                <label class="form-label" for="penghasilan">Penghasilan:</label>
+                                <input class="form-input" type="text" placeholder="Masukkan penghasilan" name="penghasilan" id="penghasilan" required>
+                                <br>
+                                <button class="btn-submit" id="formButton" type="submit" name="create"> 
                                   Submit 
                                 </button> 
                             </form> 
-                  
-                            <button class="btn-close-popup" onclick="togglePopup()"> 
-                              Close 
-                            </button> 
                         </div> 
                   </div>
-                  
+
+                  <script>
+                    function togglePopup(id_ortu = '',id_pengguna = '',penghasilan = '') {
+                        const overlay = document.getElementById('popupOverlay');
+                        overlay.classList.toggle('show');
+
+                        if (id_ortu) {
+                            document.getElementById('popupTitle').innerText = 'Edit User';
+                            document.getElementById('id_ortu').value = id_ortu;
+                            document.getElementById('id_pengguna').value = id_pengguna;
+                            document.getElementById('penghasilan').value = penghasilan;
+                            document.getElementById('formButton').name = 'update';
+                            document.getElementById('formButton').innerText = 'Update User';
+                        } else {
+                            document.getElementById('popupTitle').innerText = 'Add New User';
+                            document.getElementById('userForm').reset();
+                            document.getElementById('formButton').name = 'create';
+                            document.getElementById('formButton').innerText = 'Add User';
+                        }
+                    }
+                    </script>
+
                   <style>
+                    #editPopup {
+                      display: none;
+                      position: fixed;
+                      top: 50%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);
+                      background-color: white;
+                      padding: 20px;
+                      border: 1px solid #ddd;
+                      z-index: 100;
+                    }
                     .btn-open-popup { 
                           padding: 12px 24px; 
                           font-size: 18px; 

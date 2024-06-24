@@ -220,34 +220,92 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   } 
                 </script>
                 <br>
+                <?php
+                  require_once "../../../../config/koneksi.php";
+                  require_once "../../../crudalumni.php";
+                
+                  $database = new database();
+                  $db = $database->getConnection();
+                  $user = new UserManager($db);
+
+                  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    if (isset($_POST['create'])) {
+                        $user->id_pengguna = $_POST['id_pengguna'];
+                        $user->nim = $_POST['nim'];
+                        $user->jurusan = $_POST['jurusan'];
+                        $user->prodi = $_POST['prodi'];
+                        $user->tahun_masuk = $_POST['tahun_masuk'];
+                        $user->tahun = $_POST['tahun_lulus'];
+                        $user->create();
+                    } elseif (isset($_POST['update'])) {
+                        $user->id_alumni = $_POST['id_alumni'];
+                        $user->id_pengguna = $_POST['id_pengguna'];
+                        $user->nim = $_POST['nim'];
+                        $user->jurusan = $_POST['jurusan'];
+                        $user->prodi = $_POST['prodi'];
+                        $user->tahun_masuk = $_POST['tahun_masuk'];
+                        $user->tahun = $_POST['tahun_lulus'];
+                        $user->update();
+                    } elseif (isset($_POST['delete'])) {
+                        $user->id_alumni = $_POST['id_alumni'];
+                        $user->delete();
+                    }
+                }
+
+                  $stmt = $user->readAll();
+                ?>
                 <table id="example2" class="table table-bordered table-hover">
                   <thead>
                   <tr>
-                    <th>User ID</th>
-                    <th>Username</th>
-                    <th>Level</th>
-                    <th>Password</th>
+                    <th>ID Alumni</th>
+                    <th>ID Pengguna</th>
+                    <th>NIM</th>
+                    <th>Jurusan</th>
+                    <th>Program Studi</th>
+                    <th>Tahun Masuk</th>
+                    <th>Tahun Lulus</th>
                     <th>Aksi</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>Presto</td>
-                    <td>Opera 8.5</td>
-                    <td>Win 95+ / OSX.2+</td>
-                    <td>-</td>
-                    <td>
-                      <button type="button" class="btn btn-block btn-success">Edit</button>
-                      <button type="button" class="btn btn-block btn-danger">Danger</button>
-                    </td>
+                  <?php
+                  require_once "../../../../config/koneksi.php";
+                  require_once "../../../crudalumni.php";
+                
+                  $database = new database();
+                  $db = $database->getConnection();
+                  $user = new UserManager($db);
+
+                  $stmt = $user->readAll();
+                  ?>
+                  <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+                    <tr>
+                      <td><?php echo htmlspecialchars($row['id_alumni']); ?></td>
+                      <td><?php echo htmlspecialchars($row['id_pengguna']); ?></td>
+                      <td><?php echo htmlspecialchars($row['nim']); ?></td>
+                      <td><?php echo htmlspecialchars($row['jurusan']); ?></td>
+                      <td><?php echo htmlspecialchars($row['prodi']); ?></td>
+                      <td><?php echo htmlspecialchars($row['tahun_masuk']); ?></td>
+                      <td><?php echo htmlspecialchars($row['tahun_lulus']); ?></td>
+                      <td>
+                          <button class = "btn btn-success" onclick="togglePopup('<?php echo $row['id_alumni']; ?>','<?php echo $row['id_pengguna']; ?>', '<?php echo $row['nim']; ?>', '<?php echo $row['jurusan']; ?>','<?php echo $row['prodi']; ?>', '<?php echo $row['tahun_masuk']; ?>', '<?php echo $row['tahun_lulus']; ?>')">Edit</button>
+                          <form method="post" style="display:inline-block;">
+                              <input type="hidden" name="id_alumni" value="<?php echo $row['id_alumni']; ?>">
+                              <button type="submit" class="btn btn-danger" name="delete">Delete</button>
+                          </form>
+                      </td>
                   </tr>
+                  <?php endwhile; ?>
                   </tbody>
                   <tfoot>
                   <tr>
-                    <th>User ID</th>
-                    <th>Username</th>
-                    <th>Level</th>
-                    <th>Password</th>
+                    <th>ID Alumni</th>
+                    <th>ID Pengguna</th>
+                    <th>NIM</th>
+                    <th>Jurusan</th>
+                    <th>Program Studi</th>
+                    <th>Tahun Masuk</th>
+                    <th>Tahun Lulus</th>
                     <th>Aksi</th>
                   </tr>
                   </tfoot>
@@ -328,29 +386,86 @@ scratch. This page gets rid of all links and provides the needed markup only.
     });
   });
 </script>
-<!-- Toogle Popup -->
-                  <div id="popupOverlay" class="overlay-container"> 
+<<!-- Toogle Popup -->
+<div id="popupOverlay" class="overlay-container"> 
                       <div class="popup-box"> 
-                            <h2 style="color: green;">Popup Form</h2> 
-                            <form class="form-container"> 
-                                <label class="form-label" for="name"> 
-                                  Username: 
-                                </label> 
-                                <input class="form-input" type="text" placeholder="Enter Your Username" id="name" name="name" required> 
-                                <label class="form-label" for="email">Email:</label> 
-                                <input class="form-input" type="email" placeholder="Enter Your Email" id="email" name="email" required> 
-                                <button class="btn-submit" type="submit"> 
+                      <span class="close" onclick="togglePopup()">&times;</span>
+                            <h2 style="color: green;" id="popupTitle">Tambah User</h2> 
+                            <form method="post" class="form-container"  action="" id="userForm">
+                              <input type="hidden" id="id_alumni" name="id_alumni"> 
+                              <label class="form-label" for="id_pengguna">ID Pengguna:</label>
+                                    <select name="id_pengguna" id="id_pengguna">
+                                      <?php
+
+                                      require_once "../../../../config/koneksi.php";
+                                      require_once "../../../crudalumni.php";
+
+                                      $database = new Database();
+                                      $db = $database->getConnection();
+
+                                      $item = new UserManager($db);
+                                      $stmn = $item->readPengguna();                                       
+
+                                      while ($row = $stmn->fetch(PDO::FETCH_ASSOC)) {
+                                          echo "<option value='" . htmlspecialchars($row['id_pengguna']) . "'>" . htmlspecialchars($row['nama']) . "</option>";
+                                      }
+                                      ?>
+                                  </select><br> 
+                                <label class="form-label" for="nim">NIM:</label>
+                                <input class="form-input" type="text" placeholder="Masukkan NIM" name="nim" id="nim" required>
+                                <label class="form-label" for="jurusan"> jurusan: </label> 
+                                <input class="form-input" type="text" placeholder="Masukkan Jurusan" name="jurusan" id="jurusan" required>
+                                <label class="form-label" for="prodi"> Program Studi: </label> 
+                                <input class="form-input" type="text" placeholder="Prodi" name="prodi" id="prodi" required>  
+                                <label class="form-label" for="tahun_masuk"> Tahun Masuk: </label> 
+                                <input class="form-input" type="text" placeholder="Tahun Masuk" name="tahun_masuk" id="tahun_masuk" required> 
+                                <label class="form-label" for="tahun_lulus"> Tahun Lulus: </label> 
+                                <input class="form-input" type="text" placeholder="Tahun Lulus" name="tahun_lulus" id="tahun_lulus" required> 
+                                <br>
+                                <button class="btn-submit" id="formButton" type="submit" name="create"> 
                                   Submit 
                                 </button> 
                             </form> 
-                  
-                            <button class="btn-close-popup" onclick="togglePopup()"> 
-                              Close 
-                            </button> 
                         </div> 
                   </div>
-                  
+
+                  <script>
+                    function togglePopup(id_alumni = '',id_pengguna = '',nim = '' ,jurusan = '', prodi = '', tahun_masuk = '', tahun_lulus = '') {
+                        const overlay = document.getElementById('popupOverlay');
+                        overlay.classList.toggle('show');
+
+                        if (id_alumni) {
+                            document.getElementById('popupTitle').innerText = 'Edit User';
+                            document.getElementById('id_alumni').value = id_alumni;
+                            document.getElementById('id_pengguna').value = id_pengguna;
+                            document.getElementById('nim').value = nim;
+                            document.getElementById('jurusan').value = jurusan;
+                            document.getElementById('prodi').value = prodi;
+                            document.getElementById('tahun_masuk').value = tahun_masuk;
+                            document.getElementById('tahun_lulus').value = tahun_lulus;
+                            document.getElementById('formButton').name = 'update';
+                            document.getElementById('formButton').innerText = 'Update User';
+                        } else {
+                            document.getElementById('popupTitle').innerText = 'Add New User';
+                            document.getElementById('userForm').reset();
+                            document.getElementById('formButton').name = 'create';
+                            document.getElementById('formButton').innerText = 'Add User';
+                        }
+                    }
+                    </script>
+
                   <style>
+                    #editPopup {
+                      display: none;
+                      position: fixed;
+                      top: 50%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);
+                      background-color: white;
+                      padding: 20px;
+                      border: 1px solid #ddd;
+                      z-index: 100;
+                    }
                     .btn-open-popup { 
                           padding: 12px 24px; 
                           font-size: 18px; 
